@@ -7,10 +7,12 @@ headers = 	./include/stb_image.h \
 			./include/stb_image_write.h \
 			./include/stb_image_resize.h
 
-src = main.c
+src = main.c \
+	src/imgProcessingModule.c
+
  
 imgModule:$(src) $(headers) 
-	$(CC) -o $@ $^  $(CFlags) $(LIBS) $(INCLUDE)
+	$(CC) $(CFlags) $(src) $(LIBS) $(INCLUDE) -o $@ 
 	mv $@ ./bin/$@
 
 .PHONY:clean,valgrind
