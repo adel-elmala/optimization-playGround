@@ -63,3 +63,6 @@ void thresholdUnrolled(unsigned char * srcData,unsigned char * dstData,int width
     }
 }
 
+
+// TODO: divide work bt/w threads
+
