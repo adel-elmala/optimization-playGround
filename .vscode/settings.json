@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "emmintrin.h": "c"
+    },
+    "makefile.makefilePath": "imgModule/img_module/Makefile"
+}

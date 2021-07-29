@@ -1,0 +1,10 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module",
+            "binaryPath": "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/imgModule",
+            "binaryArgs": []
+        }
+    ]
+}

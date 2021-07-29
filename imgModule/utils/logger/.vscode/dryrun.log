@@ -1,0 +1,6 @@
+make -f "/media/adel/1E9A1F939A1F6695/cs path/gameDev/dataStructuresPractice/c-data-structures/utils/logger/Makefile" --dry-run --keep-going --print-directory
+make: Entering directory '/media/adel/1E9A1F939A1F6695/cs path/gameDev/dataStructuresPractice/c-data-structures/utils/logger'
+gcc -Wall -pedantic  -I "./include"  src/testLogger.c src/logger.c -o testLogger 
+mv testLogger ./bin
+make: Leaving directory '/media/adel/1E9A1F939A1F6695/cs path/gameDev/dataStructuresPractice/c-data-structures/utils/logger'
+ 

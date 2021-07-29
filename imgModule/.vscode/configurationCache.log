@@ -1,0 +1,1 @@
+{"buildTargets":["all","clean","clean,valgrind","default","imgModule","imgProcessingModule.o","logger.o","main.o","valgrind"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
