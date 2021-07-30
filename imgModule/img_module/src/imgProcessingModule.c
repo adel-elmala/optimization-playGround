@@ -22,6 +22,15 @@ typedef struct{
     unsigned char a;
 } pixel4;
 
+#define _mm_cmpge_epu8(a, b) \
+        _mm_cmpeq_epi8(_mm_max_epu8(a, b), a)
+
+#define _mm_cmple_epu8(a, b) _mm_cmpge_epu8(b, a)
+
+#define _mm_cmpgt_epu8(a, b) \
+        _mm_xor_si128(_mm_cmple_epu8(a, b), _mm_set1_epi8(-1))
+
+#define _mm_cmplt_epu8(a, b) _mm_cmpgt_epu8(b, a)
 
 
 
@@ -90,7 +99,6 @@ void thresholdFast(unsigned char * srcData,unsigned char * dstData,int width,int
 void thresholdSSE2(unsigned char * srcData,unsigned char * dstData,int width,int height,int channels,unsigned char thresholdValue)
 {
     const int regWidth = 16;
-    int dummy = 0;
     long int nBytes = width * height * channels;
     long int nChunks = nBytes / regWidth;
     assert(nChunks > 1);
@@ -106,12 +114,11 @@ void thresholdSSE2(unsigned char * srcData,unsigned char * dstData,int width,int
     // fill reg with threashold Value
     __m128i thresholdReg = _mm_set1_epi8 (thresholdValue);
     // compare byte-byte  srcReg[0..15] > thresholdReg[0..15] 
-    __m128i resultMask = _mm_cmpgt_epi8 (srcReg,thresholdReg); // 0xFF if srcReg[] > thresholdReg[] and 0 otherwise 
+    __m128i resultMask = _mm_cmpgt_epu8 (srcReg,thresholdReg); // 0xFF if srcReg[] > thresholdReg[] and 0 otherwise 
     // and mask with srcReg
     __m128i dstReg = _mm_and_si128(srcReg,resultMask);
     // store Result back to memory 
     _mm_storeu_si128 (j, dstReg);
-    dummy +=1 ;
 
     }
 

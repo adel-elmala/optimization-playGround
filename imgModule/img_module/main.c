@@ -40,7 +40,7 @@ int main(int argc , char ** argv){
     
     
     int width,height,channels;
-    unsigned char thresholdVal = 0;
+    unsigned char thresholdVal = 100;
 
     unsigned char *data = stbi_load(filename,&width, &height, &channels, 0);
     unsigned char * dstData1 = (unsigned char *) malloc(sizeof(unsigned char) * width * height * channels);
