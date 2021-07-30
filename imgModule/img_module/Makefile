@@ -4,6 +4,8 @@ LIBS = -lm
 INCLUDE = -I "./include/"
 INCLUDE += -I "../utils/logger/include/"
 INCLUDE += -I "../utils/timer/include/"
+# INCLUDE += -I "../utils/plotter/include/"
+# INCLUDE += -I "../utils/plotter/libs/gnuPlot/"
 
 headers = 	./include/stb_image.h \
 			./include/stb_image_write.h \
@@ -11,28 +13,14 @@ headers = 	./include/stb_image.h \
 
 src = main.c \
 	src/imgProcessingModule.c \
-	../utils/logger/src/logger.c	
+	../utils/logger/src/logger.c \
+	# ../utils/plotter/src/plotter.c \
+	# ../utils/plotter/libs/gnuPlot/gnuplot_i.c 
+
 # VPATH = .:src:bin
 
 imgModule:$(src) $(headers) 
-	$(CC) $(CFlags) $(src) $(LIBS) $(INCLUDE) -o $@ 
-# bin = main.o imgProcessingModule.o logger.o
-# imgModule:$(bin) $(headers) 
-# 	$(CC) $(CFlags) $(bin) $(LIBS) $(INCLUDE) -o $@ 
-# 	# mv $@ ./bin/$@
-
-# main.o:main.c ./bin/imgProcessingModule.o ./bin/logger.o
-# 	$(CC) -c $(CFlags) $^ $(LIBS) $(INCLUDE) -o $@ 
-# 	mv $@ ./bin/$@
-
-
-# imgProcessingModule.o:src/imgProcessingModule.c
-# 	$(CC) -c $(CFlags) $< $(LIBS) $(INCLUDE) -o $@ 
-# 	mv $@ ./bin/$@
-
-# logger.o:../utils/logger/src/logger.c
-# 	$(CC) -c $(CFlags) $< $(LIBS) $(INCLUDE) -o $@ 
-# 	mv $@ ./bin/$@
+	$(CC) $(CFlags) $(INCLUDE) $(src) $(LIBS)  -o $@ 
 
 .PHONY:clean,valgrind
 

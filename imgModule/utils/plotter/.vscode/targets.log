@@ -1,4 +1,4 @@
-make all -f "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile" --print-data-base --no-builtin-variables --no-builtin-rules --question
+make all -f "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile" --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target 'all'.  Stop.
  
 # GNU Make 4.2.1
@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul 30 03:27:06 2021
+# Make data base, printed on Fri Jul 30 02:58:16 2021
 
 # Variables
 
@@ -26,6 +26,8 @@ DESKTOP_SESSION = ubuntu
 .SHELLFLAGS := -c
 # environment
 XDG_SESSION_CLASS = user
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 4)
+SRC = src/plotter.c ./libs/gnuPlot/gnuplot_i.c
 # environment
 XDG_SESSION_TYPE = x11
 # environment
@@ -41,19 +43,23 @@ GDMSESSION = ubuntu
 # environment
 XMODIFIERS = @im=ibus
 # makefile
-CURDIR := /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module
+CURDIR := /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter
 # makefile
 SHELL = /bin/sh
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 13)
+BIN = ./bin/plotter.out
 # environment
 VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
 JOURNAL_STREAM = 8:36293
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 2)
+CFLAGS = -Wall -pedantic 
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 1)
-MAKEFILE_LIST :=  /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 1)
+MAKEFILE_LIST :=  /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile
 # automatic
 @F = $(notdir $@)
 # environment
@@ -79,7 +85,7 @@ LESSOPEN = | /usr/bin/lesspipe %s
 # environment
 LC_NAME = en_CA.UTF-8
 # environment
-VSCODE_CWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module
+VSCODE_CWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -113,13 +119,9 @@ DISPLAY = :0
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 14)
-src = main.c src/imgProcessingModule.c ../utils/logger/src/logger.c 
+PWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter
 # default
 .LOADED := 
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 2)
-CFlags = -msse2 -ggdb
 # environment
 SSH_AGENT_PID = 1435
 # environment
@@ -130,8 +132,6 @@ GTK_MODULES = gail:atk-bridge
 VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
 # environment
 HOME = /home/adel
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 10)
-headers = ./include/stb_image.h ./include/stb_image_write.h ./include/stb_image_resize.h
 # environment
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
@@ -144,6 +144,8 @@ LOGNAME = adel
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 7)
+HEADERS = include/plotter.h
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
@@ -164,12 +166,12 @@ MAKECMDGOALS := all
 QT_IM_MODULE = ibus
 # environment
 SHLVL = 1
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 1)
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 1)
 CC = gcc
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-219eb3ed-1883-475f-8c0d-f5e695cb6663.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-f86c465c-8762-4c15-b8d1-db9644b44b3f.sock
 # environment
 OMP_NUM_THREADS = 4
 # default
@@ -179,9 +181,9 @@ USER = adel
 # environment
 LC_MONETARY = en_CA.UTF-8
 # makefile
-.DEFAULT_GOAL := imgModule
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 6)
-INCLUDE = -I "./include/" -I "../utils/logger/include/" -I "../utils/timer/include/"
+.DEFAULT_GOAL := plotter
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 10)
+INCLUDE = -I "./include"  -I "./libs/gnuPlot/" 
 # environment
 XDG_CURRENT_DESKTOP = Unity
 # automatic
@@ -213,6 +215,8 @@ GDK_BACKEND = x11
 # environment
 LC_PAPER = en_CA.UTF-8
 # environment
+NO_AT_BRIDGE = 1
+# environment
 QT_ACCESSIBILITY = 1
 # environment
 DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
@@ -232,10 +236,8 @@ LC_MEASUREMENT = en_CA.UTF-8
 LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 3)
-LIBS = -lm 
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/6a2631f9_b380_444e_86c7_811d59706fbe
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/b9c7f0a3_c921_4175_9cc2_66b9c17d0b59
 # automatic
 ^F = $(notdir $^)
 # environment
@@ -263,7 +265,7 @@ VSCODE_PID = 29145
 # environment
 DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=cf6f9261be3cddffd146268c61028265
 # variable set hash-table stats:
-# Load=125/1024=12%, Rehash=0, Collisions=24/156=15%
+# Load=126/1024=12%, Rehash=0, Collisions=22/155=14%
 
 # Pattern-specific Variable Values
 
@@ -276,29 +278,10 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=cf6f9261be3cddffd146268
 
 # Implicit Rules
 
+ 
 # No implicit rules.
 
- 
 # Files
-
-# Not a target:
-../utils/logger/src/logger.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2021-07-30 03:27:02.1090936
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-include/stb_image_write.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
 
 # Not a target:
 all:
@@ -307,37 +290,41 @@ all:
 #  File does not exist.
 #  File has not been updated.
 
-.PHONY: clean,valgrind
+.PHONY: setupDir,clean,valgrind
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+setupDir:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 22):
+	mkdir bin src include 
+	mv *.c ./src
+	mv *.h ./include
+
+# Not a target:
+include/plotter.h:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-main.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-clean,valgrind:
-#  Phony target (prerequisite of .PHONY).
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
-
-# Not a target:
-include/stb_image.h:
+src/plotter.c:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
-src/imgProcessingModule.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2021-07-30 02:57:56.955898
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
-include/stb_image_resize.h:
+libs/gnuPlot/gnuplot_i.c:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -348,41 +335,48 @@ include/stb_image_resize.h:
 #  Modification time never checked.
 #  File has not been updated.
 
+plotter: src/plotter.c libs/gnuPlot/gnuplot_i.c include/plotter.h
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 16):
+	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) -o $@ 
+	mv $@ ./bin
+
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 28):
-	rm -r ./bin/*
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 26):
+	rm bin/*
+
+setupDir,clean,valgrind:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
 
 valgrind:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 31):
-	valgrind --leak-check=full --show-leak-kinds=all ./bin/imgModule
-
-imgModule: main.c src/imgProcessingModule.c ../utils/logger/src/logger.c include/stb_image.h include/stb_image_write.h include/stb_image_resize.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 23):
-	$(CC) $(CFlags) $(INCLUDE) $(src) $(LIBS)  -o $@ 
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/plotter/Makefile', line 28):
+	valgrind --leak-check=full --show-leak-kinds=all ./bin/main
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=0/32=0%
+# Load=13/1024=1%, Rehash=0, Collisions=0/27=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 17 / storage = 335 B / avg = 19 B
-# current buf: size = 8162 B / used = 335 B / count = 17 / avg = 19 B
+# strcache buffers: 1 (0) / strings = 15 / storage = 276 B / avg = 18 B
+# current buf: size = 8162 B / used = 276 B / count = 15 / avg = 18 B
 
-# strcache performance: lookups = 24 / hit rate = 29%
+# strcache performance: lookups = 23 / hit rate = 34%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=0/24=0%
-# Finished Make data base on Fri Jul 30 03:27:06 2021
+# Load=15/8192=0%, Rehash=0, Collisions=0/23=0%
+# Finished Make data base on Fri Jul 30 02:58:16 2021
 
  
