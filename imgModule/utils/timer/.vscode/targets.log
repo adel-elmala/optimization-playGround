@@ -1,4 +1,4 @@
-make all -f "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile" --print-data-base --no-builtin-variables --no-builtin-rules --question
+make all -f "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile" --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target 'all'.  Stop.
  
 # GNU Make 4.2.1
@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Aug  4 23:22:26 2021
+# Make data base, printed on Sat Jul 31 11:48:17 2021
 
 # Variables
 
@@ -26,6 +26,8 @@ DESKTOP_SESSION = ubuntu
 .SHELLFLAGS := -c
 # environment
 XDG_SESSION_CLASS = user
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 4)
+SRC = src/testTimer.c 
 # environment
 XDG_SESSION_TYPE = x11
 # environment
@@ -41,19 +43,23 @@ GDMSESSION = ubuntu
 # environment
 XMODIFIERS = @im=ibus
 # makefile
-CURDIR := /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module
+CURDIR := /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer
 # makefile
 SHELL = /bin/sh
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 11)
+BIN = ./bin/testTimer.out
 # environment
 VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:35277
+JOURNAL_STREAM = 8:35912
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 2)
+CFLAGS = -Wall -pedantic 
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 1)
-MAKEFILE_LIST :=  /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 1)
+MAKEFILE_LIST :=  /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile
 # automatic
 @F = $(notdir $@)
 # environment
@@ -67,19 +73,19 @@ MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=4b4c6df02af442e001ae6b7b610a5304
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=b21705e0e54e10dc25001fab6105138a
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
 _ = /usr/bin/code
 # environment
-MANAGERPID = 1091
+MANAGERPID = 1103
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
 LC_NAME = en_CA.UTF-8
 # environment
-VSCODE_CWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module
+VSCODE_CWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -87,7 +93,7 @@ PATH = /home/adel/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/adel:@/tmp/.ICE-unix/1362,unix/adel:/tmp/.ICE-unix/1362
+SESSION_MANAGER = local/adel:@/tmp/.ICE-unix/1368,unix/adel:/tmp/.ICE-unix/1368
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -97,11 +103,9 @@ VSCODE_LOG_STACK = false
 # environment
 VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=83dfd14d-8ffd-4887-9be5-82e66370eac7&iid=83dfd14d-8ffd-4887-9be5-82e66370eac7&sid=83dfd14d-8ffd-4887-9be5-82e66370eac7","uploadToServer":true}
 # environment
-INVOCATION_ID = 8e77ec4b3f5c45bf947c92df157ac376
+INVOCATION_ID = 23b4140e534f492992f2f1536886c1f1
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 3)
-CFlagsRelease = -msse2 -O3 
 # environment
 LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
 # environment
@@ -115,15 +119,11 @@ DISPLAY = :0
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 15)
-src = main.c src/imgProcessingModule.c ../utils/logger/src/logger.c 
+PWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer
 # default
 .LOADED := 
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 2)
-CFlags = -msse2 -ggdb 
 # environment
-SSH_AGENT_PID = 1317
+SSH_AGENT_PID = 1318
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -132,8 +132,6 @@ GTK_MODULES = gail:atk-bridge
 VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
 # environment
 HOME = /home/adel
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 11)
-headers = ./include/stb_image.h ./include/stb_image_write.h ./include/stb_image_resize.h
 # environment
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
@@ -146,6 +144,8 @@ LOGNAME = adel
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 6)
+HEADERS = include/adelTimer.h
 # environment
 ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
@@ -166,12 +166,12 @@ MAKECMDGOALS := all
 QT_IM_MODULE = ibus
 # environment
 SHLVL = 1
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 1)
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 1)
 CC = gcc
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-b1dbb14b-6d3c-4e29-926f-983934a969c2.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-2bc8ec7c-6dcb-467f-870a-1094f563971a.sock
 # environment
 OMP_NUM_THREADS = 4
 # default
@@ -181,9 +181,9 @@ USER = adel
 # environment
 LC_MONETARY = en_CA.UTF-8
 # makefile
-.DEFAULT_GOAL := imgModule
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 7)
-INCLUDE = -I "./include/" -I "../utils/logger/include/" -I "../utils/timer/include/"
+.DEFAULT_GOAL := testTimer
+# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 8)
+INCLUDE = -I "./include" 
 # environment
 XDG_CURRENT_DESKTOP = Unity
 # automatic
@@ -192,10 +192,6 @@ XDG_CURRENT_DESKTOP = Unity
 LC_TELEPHONE = en_CA.UTF-8
 # default
 MAKE_COMMAND := make
-# environment
-GIT_PS1_SHOWDIRTYSTATE = 1
-# environment
-OLDPWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule
 # default
 .VARIABLES := 
 # automatic
@@ -217,6 +213,8 @@ GDK_BACKEND = x11
 # environment
 LC_PAPER = en_CA.UTF-8
 # environment
+NO_AT_BRIDGE = 1
+# environment
 QT_ACCESSIBILITY = 1
 # environment
 DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
@@ -231,21 +229,17 @@ VSCODE_BROWSER_CODE_LOADING = bypassHeatCheck
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-PS1 = \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ 
-# environment
 LC_MEASUREMENT = en_CA.UTF-8
 # environment
 LC_ALL = C
 # environment
 DBUS_STARTER_BUS_TYPE = session
-# makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 4)
-LIBS = -lm -pthread
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/af647571_7fa3_4fbe_be34_ee3a65fcfbab
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/c26bc176_8a82_46c2_ad05_f23c128f2e3a
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.503
+GNOME_TERMINAL_SERVICE = :1.142
 # default
 SUFFIXES := 
 # environment
@@ -265,11 +259,11 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 16393
+VSCODE_PID = 5076
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=4b4c6df02af442e001ae6b7b610a5304
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=b21705e0e54e10dc25001fab6105138a
 # variable set hash-table stats:
-# Load=128/1024=12%, Rehash=0, Collisions=24/161=15%
+# Load=125/1024=12%, Rehash=0, Collisions=20/152=13%
 
 # Pattern-specific Variable Values
 
@@ -278,36 +272,17 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=4b4c6df02af442e001ae6b7
 # Directories
 
 
- 
 # No files, no impossibilities in 0 directories.
 
 # Implicit Rules
 
 # No implicit rules.
 
+ 
 # Files
 
 # Not a target:
-../utils/logger/src/logger.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile:
-#  Implicit rule search has been done.
-#  Last modified 2021-08-04 23:21:38.8768419
-#  File has been updated.
-#  Successfully updated.
-
-clean,valgrind,profile:
-#  Phony target (prerequisite of .PHONY).
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
-
-# Not a target:
-include/stb_image_write.h:
+include/adelTimer.h:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -319,31 +294,29 @@ all:
 #  File does not exist.
 #  File has not been updated.
 
-.PHONY: clean,valgrind,profile
+.PHONY: setupDir,clean,valgrind
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-main.c:
+setupDir:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 20):
+	mkdir bin src include 
+	mv *.c ./src
+	mv *.h ./include
 
 # Not a target:
-include/stb_image.h:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2021-07-29 22:24:23.0383498
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
-src/imgProcessingModule.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
-include/stb_image_resize.h:
+src/testTimer.c:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -358,59 +331,44 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 33):
-	rm -r ./bin/*
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 24):
+	rm bin/*
 
-imgModuleRelease: main.c src/imgProcessingModule.c ../utils/logger/src/logger.c include/stb_image.h include/stb_image_write.h include/stb_image_resize.h
+setupDir,clean,valgrind:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+testTimer: src/testTimer.c include/adelTimer.h
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 27):
-	$(CC) $(CFlagsRelease) $(INCLUDE) $(src) $(LIBS)  -o $@ 
-
-profile:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 39):
-	valgrind --tool=callgrind ./imgModule
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 14):
+	$(CC) $(CFLAGS) $(INCLUDE) $(SRC) -o $@ 
+	mv $@ ./bin
 
 valgrind:
 #  Implicit rule search has not been done.
- 
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 36):
-	valgrind --leak-check=full --show-leak-kinds=all ./imgModule
-
-imgModule: main.c src/imgProcessingModule.c ../utils/logger/src/logger.c include/stb_image.h include/stb_image_write.h include/stb_image_resize.h
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 24):
-	$(CC) $(CFlags) $(INCLUDE) $(src) $(LIBS)  -o $@ 
-
-helgrind:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 41):
-	valgrind  --tool=helgrind ./imgModule -s
+#  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/utils/timer/Makefile', line 26):
+	valgrind --leak-check=full --show-leak-kinds=all ./bin/main
 
 # files hash-table stats:
-# Load=18/1024=2%, Rehash=0, Collisions=0/41=0%
+# Load=12/1024=1%, Rehash=0, Collisions=0/25=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 20 / storage = 377 B / avg = 18 B
-# current buf: size = 8162 B / used = 377 B / count = 20 / avg = 18 B
+# strcache buffers: 1 (0) / strings = 14 / storage = 255 B / avg = 18 B
+# current buf: size = 8162 B / used = 255 B / count = 14 / avg = 18 B
 
-# strcache performance: lookups = 36 / hit rate = 44%
+# strcache performance: lookups = 22 / hit rate = 36%
 # hash-table stats:
-# Load=20/8192=0%, Rehash=0, Collisions=0/36=0%
-# Finished Make data base on Wed Aug  4 23:22:26 2021
+# Load=14/8192=0%, Rehash=0, Collisions=0/22=0%
+# Finished Make data base on Sat Jul 31 11:48:17 2021
 
  

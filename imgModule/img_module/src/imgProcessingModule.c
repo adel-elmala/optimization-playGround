@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <emmintrin.h>
 #include <assert.h>
+#include <sys/sysinfo.h>
+#include <pthread.h>
 
+#include "imgProcessingModule.h"
 
 typedef struct{
     unsigned char grey;
@@ -106,19 +109,22 @@ void thresholdSSE2(unsigned char * srcData,unsigned char * dstData,int width,int
     int residual = nBytes - (nChunks * regWidth);
 
     __m128i* end = ((__m128i*)(srcData)) + nChunks;
+    
+     // fill reg with threashold Value
+    __m128i thresholdReg = _mm_set1_epi8 (thresholdValue);
+   
     for(__m128i* i = (__m128i*)srcData,*j = (__m128i*)dstData; i < end;++i,++j)
     {
 
-    // load 16 bytes at a time
-    __m128i srcReg =  _mm_loadu_si128 (i);
-    // fill reg with threashold Value
-    __m128i thresholdReg = _mm_set1_epi8 (thresholdValue);
-    // compare byte-byte  srcReg[0..15] > thresholdReg[0..15] 
-    __m128i resultMask = _mm_cmpgt_epu8 (srcReg,thresholdReg); // 0xFF if srcReg[] > thresholdReg[] and 0 otherwise 
-    // and mask with srcReg
-    __m128i dstReg = _mm_and_si128(srcReg,resultMask);
-    // store Result back to memory 
-    _mm_storeu_si128 (j, dstReg);
+        // load 16 bytes at a time
+        __m128i srcReg =  _mm_loadu_si128 (i);
+    
+        // compare byte-byte  srcReg[0..15] > thresholdReg[0..15] 
+        __m128i resultMask = _mm_cmpgt_epu8 (srcReg,thresholdReg); // 0xFF if srcReg[] > thresholdReg[] and 0 otherwise 
+        // and mask with srcReg
+        __m128i dstReg = _mm_and_si128(srcReg,resultMask);
+        // store Result back to memory 
+        _mm_storeu_si128 (j, dstReg);
 
     }
 
@@ -138,4 +144,97 @@ void thresholdSSE2(unsigned char * srcData,unsigned char * dstData,int width,int
 }
 
 
+
+
 // TODO: divide work bt/w threads
+typedef struct 
+{
+    /* data */
+    unsigned char * srcData;
+    unsigned char * dstData;
+    int width;
+    int height;
+    int channels;
+    unsigned char thresholdValue;
+} kernalArgs_t;
+
+
+void * thresholdSSEKernal(void * args)
+{
+    kernalArgs_t * kArgs = (kernalArgs_t *) args;
+
+    const int regWidth = 16;
+    long int nBytes = (kArgs-> width) * (kArgs-> height) * (kArgs-> channels);
+    long int nChunks = nBytes / regWidth;
+    assert(nChunks > 1);
+
+
+    int residual = nBytes - (nChunks * regWidth);
+
+    __m128i* end = ((__m128i*)(kArgs->srcData)) + nChunks;
+    
+     // fill reg with threashold Value
+    __m128i thresholdReg = _mm_set1_epi8 (kArgs->thresholdValue);
+   
+    for(__m128i* i = (__m128i*)(kArgs->srcData),*j = (__m128i*)(kArgs->dstData); i < end;++i,++j)
+    {
+
+        // load 16 bytes at a time
+        __m128i srcReg =  _mm_loadu_si128 (i);
+    
+        // compare byte-byte  srcReg[0..15] > thresholdReg[0..15] 
+        __m128i resultMask = _mm_cmpgt_epu8 (srcReg,thresholdReg); // 0xFF if srcReg[] > thresholdReg[] and 0 otherwise 
+        // and mask with srcReg
+        __m128i dstReg = _mm_and_si128(srcReg,resultMask);
+        // store Result back to memory 
+        _mm_storeu_si128 (j, dstReg);
+
+    }
+
+    if(residual > 0)
+    {   
+        unsigned char *start = (kArgs->srcData) + (nChunks * regWidth); 
+        unsigned char *end = (kArgs->srcData) + ((kArgs-> width) * (kArgs-> height) * (kArgs-> channels)); 
+        for(unsigned char *i = start,*j = (kArgs->dstData);i < end;++i,++j)
+        {
+
+            unsigned char pVal = *i;
+            *j = (pVal < (kArgs->thresholdValue))? 0 : pVal ;
+
+        }
+    }
+
+}
+
+void thresholdParallel(unsigned char * srcData,unsigned char * dstData,int width,int height,int channels,unsigned char thresholdValue)
+{
+    // get how many proccessors available (slow)
+    int nprocs = get_nprocs();
+    // devide the img into equal size horizontal segments
+    int segmentHeight = height / nprocs;
+    kernalArgs_t * kargs = (kernalArgs_t*) malloc(sizeof(kernalArgs_t) * nprocs); 
+    pthread_t * tid = (pthread_t*) malloc(sizeof(pthread_t) * nprocs); 
+    
+    for(int i=0;i<nprocs;++i)
+    {
+        kargs[i].srcData = srcData + (width * (segmentHeight * i) * channels);
+        kargs[i].dstData = dstData + (width * (segmentHeight * i) * channels);
+        kargs[i].width = width;
+        kargs[i].height = segmentHeight;
+        kargs[i].channels = channels;
+        kargs[i].thresholdValue = thresholdValue;
+    }
+
+    for(int i = 0; i < nprocs;++i)
+        pthread_create(tid + i ,NULL,thresholdSSEKernal,(void*)(kargs + i));
+    
+    for(int i = 0; i < nprocs;++i)
+        pthread_join(tid[i],NULL);
+    
+    free(kargs);
+    free(tid);
+
+
+
+
+}

@@ -1,6 +1,7 @@
 CC = gcc
-CFlags = -msse2 -ggdb
-LIBS = -lm 
+CFlags = -msse2 -ggdb 
+CFlagsRelease = -msse2 -O3 
+LIBS = -lm -pthread
 INCLUDE = -I "./include/"
 INCLUDE += -I "../utils/logger/include/"
 INCLUDE += -I "../utils/timer/include/"
@@ -22,12 +23,19 @@ src = main.c \
 imgModule:$(src) $(headers) 
 	$(CC) $(CFlags) $(INCLUDE) $(src) $(LIBS)  -o $@ 
 
-.PHONY:clean,valgrind
+imgModuleRelease:$(src) $(headers) 
+	$(CC) $(CFlagsRelease) $(INCLUDE) $(src) $(LIBS)  -o $@ 
+
+
+.PHONY:clean,valgrind,profile
 
 clean:
 	rm -r ./bin/*
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all ./bin/imgModule
+	valgrind --leak-check=full --show-leak-kinds=all ./imgModule
 
-
+profile:
+	valgrind --tool=callgrind ./imgModule
+helgrind:
+	valgrind  --tool=helgrind ./imgModule -s

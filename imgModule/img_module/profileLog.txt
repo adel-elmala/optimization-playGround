@@ -1,0 +1,137 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 47.20      0.84     0.84    24592     0.03     0.06  stbi_zlib_compress
+ 35.40      1.47     0.63 25816437     0.00     0.00  stbi_write_hdr
+ 10.11      1.65     0.18        4    45.00   412.54  stbi_write_png_to_mem
+  4.49      1.73     0.08        3    26.67    26.67  stbi_hdr_to_ldr_scale
+  1.12      1.75     0.02        1    20.00    20.00  thresholdUnrolled
+  0.56      1.76     0.01        1    10.00    10.00  threshold
+  0.56      1.77     0.01        1    10.00    10.00  thresholdFast
+  0.56      1.78     0.01        1    10.00    10.00  thresholdSSE2
+  0.00      1.78     0.00     1314     0.00     0.00  _dl_relocate_static_pie
+  0.00      1.78     0.00       13     0.00     0.00  stbi_failure_reason
+  0.00      1.78     0.00        4     0.00     0.00  logInfo
+  0.00      1.78     0.00        4     0.00     0.00  stbi_flip_vertically_on_write
+  0.00      1.78     0.00        4     0.00   412.54  stbi_write_png
+  0.00      1.78     0.00        2     0.00    26.67  stbi_set_flip_vertically_on_load_thread
+  0.00      1.78     0.00        1     0.00     0.00  logEndLine
+  0.00      1.78     0.00        1     0.00     0.00  stbi_image_free
+  0.00      1.78     0.00        1     0.00    80.01  stbi_load
+  0.00      1.78     0.00        1     0.00    53.34  stbi_load_from_file
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) for 0.56% of 1.78 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00    1.78                 main [1]
+                0.00    1.65       4/4           stbi_write_png [2]
+                0.00    0.08       1/1           stbi_load [8]
+                0.02    0.00       1/1           thresholdUnrolled [11]
+                0.01    0.00       1/1           threshold [12]
+                0.01    0.00       1/1           thresholdFast [13]
+                0.01    0.00       1/1           thresholdSSE2 [14]
+                0.00    0.00       4/4           logInfo [16]
+                0.00    0.00       1/1           logEndLine [18]
+                0.00    0.00       1/1           stbi_image_free [19]
+-----------------------------------------------
+                0.00    1.65       4/4           main [1]
+[2]     92.7    0.00    1.65       4         stbi_write_png [2]
+                0.18    1.47       4/4           stbi_write_png_to_mem [3]
+                0.00    0.00       4/4           stbi_flip_vertically_on_write [17]
+-----------------------------------------------
+                0.18    1.47       4/4           stbi_write_png [2]
+[3]     92.7    0.18    1.47       4         stbi_write_png_to_mem [3]
+                0.84    0.63   24592/24592       stbi_zlib_compress [4]
+-----------------------------------------------
+                             22352640             stbi_zlib_compress [4]
+                0.84    0.63   24592/24592       stbi_write_png_to_mem [3]
+[4]     82.6    0.84    0.63   24592+22352640 stbi_zlib_compress [4]
+                0.63    0.00 25816437/25816437     stbi_write_hdr [5]
+                             22352640             stbi_zlib_compress [4]
+-----------------------------------------------
+                                  68             stbi_write_hdr [5]
+                0.63    0.00 25816437/25816437     stbi_zlib_compress [4]
+[5]     35.4    0.63    0.00 25816437+68      stbi_write_hdr [5]
+                                  68             stbi_write_hdr [5]
+-----------------------------------------------
+[6]      4.5    0.08    0.00       3+1314    <cycle 1 as a whole> [6]
+                0.08    0.00       3+1086510     stbi_hdr_to_ldr_scale <cycle 1> [7]
+                0.00    0.00    1314+1           _dl_relocate_static_pie <cycle 1> [68]
+-----------------------------------------------
+                             1086510             stbi_hdr_to_ldr_scale <cycle 1> [7]
+                                   1             _dl_relocate_static_pie <cycle 1> [68]
+                0.05    0.00       2/3           stbi_set_flip_vertically_on_load_thread [9]
+[7]      4.5    0.08    0.00       3+1086510 stbi_hdr_to_ldr_scale <cycle 1> [7]
+                0.00    0.00      13/13          stbi_failure_reason [15]
+                                1313             _dl_relocate_static_pie <cycle 1> [68]
+                             1086510             stbi_hdr_to_ldr_scale <cycle 1> [7]
+-----------------------------------------------
+                0.00    0.08       1/1           main [1]
+[8]      4.5    0.00    0.08       1         stbi_load [8]
+                0.00    0.05       1/1           stbi_load_from_file [10]
+                0.00    0.03       1/2           stbi_set_flip_vertically_on_load_thread [9]
+-----------------------------------------------
+                                   1             stbi_set_flip_vertically_on_load_thread [9]
+                0.00    0.03       1/2           stbi_load [8]
+                0.00    0.03       1/2           stbi_load_from_file [10]
+[9]      3.0    0.00    0.05       2+1       stbi_set_flip_vertically_on_load_thread [9]
+                0.05    0.00       2/3           stbi_hdr_to_ldr_scale <cycle 1> [7]
+                                   1             stbi_set_flip_vertically_on_load_thread [9]
+-----------------------------------------------
+                0.00    0.05       1/1           stbi_load [8]
+[10]     3.0    0.00    0.05       1         stbi_load_from_file [10]
+                0.03    0.00       1/3           _dl_relocate_static_pie <cycle 1> [68]
+                0.00    0.03       1/2           stbi_set_flip_vertically_on_load_thread [9]
+-----------------------------------------------
+                0.02    0.00       1/1           main [1]
+[11]     1.1    0.02    0.00       1         thresholdUnrolled [11]
+-----------------------------------------------
+                0.01    0.00       1/1           main [1]
+[12]     0.6    0.01    0.00       1         threshold [12]
+-----------------------------------------------
+                0.01    0.00       1/1           main [1]
+[13]     0.6    0.01    0.00       1         thresholdFast [13]
+-----------------------------------------------
+                0.01    0.00       1/1           main [1]
+[14]     0.6    0.01    0.00       1         thresholdSSE2 [14]
+-----------------------------------------------
+                                  35             stbi_failure_reason [15]
+                0.00    0.00      13/13          stbi_hdr_to_ldr_scale <cycle 1> [7]
+[15]     0.0    0.00    0.00      13+35      stbi_failure_reason [15]
+                                  35             stbi_failure_reason [15]
+-----------------------------------------------
+                0.00    0.00       4/4           main [1]
+[16]     0.0    0.00    0.00       4         logInfo [16]
+-----------------------------------------------
+                0.00    0.00       4/4           stbi_write_png [2]
+[17]     0.0    0.00    0.00       4         stbi_flip_vertically_on_write [17]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[18]     0.0    0.00    0.00       1         logEndLine [18]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[19]     0.0    0.00    0.00       1         stbi_image_free [19]
+-----------------------------------------------
+                                   1             _dl_relocate_static_pie <cycle 1> [68]
+                                1313             stbi_hdr_to_ldr_scale <cycle 1> [7]
+                0.03    0.00       1/3           stbi_load_from_file [10]
+[68]     0.0    0.00    0.00    1314+1       _dl_relocate_static_pie <cycle 1> [68]
+                                   1             stbi_hdr_to_ldr_scale <cycle 1> [7]
+                                   1             _dl_relocate_static_pie <cycle 1> [68]
+-----------------------------------------------
+
+Index by function name
+
+  [68] _dl_relocate_static_pie [8] stbi_load              [12] threshold
+  [18] logEndLine             [10] stbi_load_from_file    [13] thresholdFast
+  [16] logInfo                 [9] stbi_set_flip_vertically_on_load_thread [14] thresholdSSE2
+  [15] stbi_failure_reason     [5] stbi_write_hdr         [11] thresholdUnrolled
+  [17] stbi_flip_vertically_on_write [2] stbi_write_png    [6] <cycle 1>
+   [7] stbi_hdr_to_ldr_scale   [3] stbi_write_png_to_mem
+  [19] stbi_image_free         [4] stbi_zlib_compress

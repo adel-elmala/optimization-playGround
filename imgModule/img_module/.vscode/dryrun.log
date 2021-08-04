@@ -1,6 +1,5 @@
 make imgModule -f "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile" --dry-run --keep-going --print-directory
 make: Entering directory '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module'
- 
-gcc -msse2 -ggdb -I "./include/" -I "../utils/logger/include/" -I "../utils/timer/include/" main.c src/imgProcessingModule.c ../utils/logger/src/logger.c  -lm   -o imgModule 
+make: 'imgModule' is up to date.
 make: Leaving directory '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module'
  
