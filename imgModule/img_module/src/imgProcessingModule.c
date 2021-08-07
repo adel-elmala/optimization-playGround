@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <sys/sysinfo.h>
 #include <pthread.h>
+#include <string.h>
 
 #include "imgProcessingModule.h"
 
@@ -237,4 +238,170 @@ void thresholdParallel(unsigned char * srcData,unsigned char * dstData,int width
 
 
 
+}
+
+// crops an img at colomns[x1:x2] and rows[y1:y2]
+unsigned char * crop(unsigned char * srcData,int srcWidth,int srcHeight,int channels,int x1,int x2,int y1,int y2)
+{
+    assert(x1 >= 0);
+    assert(y1 >= 0);
+    assert(x2 >= x1);
+    assert(y2 >= y1);
+
+    int width = x2 - x1;
+    int height = y2 - y1;
+
+    // The user is responsible of freeing this block of memory
+    unsigned char * dstData = (unsigned char *) malloc(sizeof(unsigned char *) * width * height * channels); 
+    unsigned char * dstStart = dstData;
+    unsigned char * srcStart = srcData + (y1 * srcWidth * channels) + (x1 * channels);
+    unsigned char * srcEnd = srcData + (y2 * srcWidth * channels) + (x2 * channels);
+
+    // unsigned int i = 0;
+    for(unsigned char* current = srcStart;(current < srcEnd);)
+        {
+            memcpy((void *)dstData, (const void *)current, (width* channels));
+            dstData = (unsigned char *)dstData + (width* channels);
+            current = (unsigned char *)current + (srcWidth* channels);
+
+
+        }
+    
+
+
+
+    return dstStart;
+
+}
+
+
+
+// crops an img at colomns[x1:x2] and rows[y1:y2]
+unsigned char * cropSlow(unsigned char * srcData,int srcWidth,int srcHeight,int channels,int x1,int x2,int y1,int y2)
+{
+    assert(x1 >= 0);
+    assert(y1 >= 0);
+    assert(x2 >= x1);
+    assert(y2 >= y1);
+
+    int width = x2 - x1;
+    int height = y2 - y1;
+
+    // The user is responsible of freeing this block of memory
+    unsigned char * dstData = (unsigned char *) malloc(sizeof(unsigned char *) * width * height * channels); 
+    unsigned char * dstStart = dstData;
+    unsigned char * srcStart = srcData + (y1 * srcWidth * channels) + (x1 * channels);
+    unsigned char * srcEnd = srcData + (y2 * srcWidth * channels) + (x2 * channels);
+
+    int i = 0;
+    int j = 0;
+    for(unsigned char* current = srcStart;(current < srcEnd);)
+        {
+            *dstData = *current;
+            ++dstData;
+            ++i;
+
+            if(i%(width*channels) == 0) // copied entire row
+            {
+                ++j;
+                current = srcStart + ( srcWidth * j * channels);
+            }
+            else
+            {
+                ++current;
+            }
+        }
+   
+    return dstStart;
+}
+
+
+
+// blend 2 images : (alpha * img1 + (255 - alpha) * img2) / 256  
+// divison by 256 instead of 255 for more performance 
+unsigned char * alphaBlendSSE(unsigned char * srcData1,unsigned char * srcData2,int width,int height,int channels,unsigned char alpha)
+{
+    
+    unsigned char * dstData = (unsigned char *) malloc(sizeof(unsigned char *) * width * height * channels);
+
+    const unsigned int regSize = 16;
+    const unsigned int bytesNumber = width * height * channels;
+    const unsigned int chunks = bytesNumber / regSize;
+    const unsigned int residiual = bytesNumber - (chunks * 16);
+
+
+
+    __m128i zeroReg = _mm_setzero_si128 ();
+    __m128i oneReg16 = _mm_set1_epi16 (0x00FF); // filled with 16-bit 255 values
+    __m128i alphaReg8 =  _mm_set1_epi8 (alpha);
+   
+    // reg filled with 16-bit alpha values
+    __m128i alphaReg16 =  _mm_unpacklo_epi8 (alphaReg8,zeroReg);
+
+    // reg filled with 16-bit (255-alpha) values
+    __m128i alphaCompReg16 = _mm_sub_epi16 (oneReg16,alphaReg16);
+
+    __m128i * dstReg = (__m128i * ) dstData;
+    __m128i * srcEnd = ((__m128i * ) srcData1) + chunks ;
+
+    for(__m128i * src1 = (__m128i*)srcData1,*src2 = (__m128i*)srcData2;src1 < srcEnd;++src1,++src2,++dstReg)
+    {
+
+
+    // load 16 bytes from img1
+    __m128i srcReg1 = _mm_loadu_si128 ((__m128i const*) src1);
+
+    // load 16 bytes from img2
+    __m128i srcReg2 = _mm_loadu_si128 ((__m128i const*) src2);
+
+
+    // unpack low-8 Bytes to be extended to 16-bit each with zeros
+    __m128i srcReg1Lo = _mm_unpacklo_epi8 (srcReg1, zeroReg);
+    // unpack high-8 Bytes to be extended to 16-bit each with zeros
+    __m128i srcReg1Hi = _mm_unpackhi_epi8 (srcReg1, zeroReg);
+
+
+    // unpack low-8 Bytes to be extended to 16-bit each with zeros
+    __m128i srcReg2Lo = _mm_unpacklo_epi8 (srcReg2, zeroReg);
+    // unpack high-8 Bytes to be extended to 16-bit each with zeros
+    __m128i srcReg2Hi = _mm_unpackhi_epi8 (srcReg2, zeroReg);
+
+    srcReg1Lo = _mm_mullo_epi16 (srcReg1Lo, alphaReg16);
+    srcReg1Hi = _mm_mullo_epi16 (srcReg1Hi, alphaReg16);
+
+    srcReg2Lo = _mm_mullo_epi16 (srcReg2Lo, alphaCompReg16);
+    srcReg2Hi = _mm_mullo_epi16 (srcReg2Hi, alphaCompReg16);
+
+    __m128i rsltRegLo =  _mm_add_epi16 (srcReg1Lo, srcReg2Lo);
+    __m128i rsltRegHi =  _mm_add_epi16 (srcReg1Hi, srcReg2Hi);
+    rsltRegLo = _mm_srli_epi16(rsltRegLo,8);
+    rsltRegHi = _mm_srli_epi16(rsltRegHi,8);
+
+    _mm_store_si128( dstReg,_mm_packus_epi16( rsltRegLo,rsltRegHi ) );
+
+    }    
+
+    return dstData;
+
+}
+
+
+void testFeatureSupport(void){
+    __builtin_cpu_init ();
+    // deteced if intel 
+    if(__builtin_cpu_is("intel"))
+    { 
+        printf("your cpu is an INTEL!\n");
+        
+        if(__builtin_cpu_supports("sse"))
+            printf("your cpu supports SSE!\n");
+        else
+            printf("your cpu does NOT supports SSE!\n");
+    }
+
+    else 
+        printf("your cpu is NOT an INTEL :< !\n");
+
+    
+    
 }

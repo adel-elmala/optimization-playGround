@@ -1,0 +1,8 @@
+imgs/hires.jpg:
+width: 1280 px,	height: 1024 px,	channels: 3
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[32mINFO:[main.c][l:55]:[0msequential thresholding took, 19.074 mSec
+[32mINFO:[main.c][l:62]:[0munrolled thresholding took, 11.480 mSec
+[32mINFO:[main.c][l:71]:[0mFast thresholding took, 9.788 mSec
+[32mINFO:[main.c][l:78]:[0mSSE2 thresholding took, 12.003 mSec
+[32mINFO:[main.c][l:85]:[0mparallel thresholding took, 3.581 mSec
