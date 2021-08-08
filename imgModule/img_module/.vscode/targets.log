@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Aug  7 13:24:18 2021
+# Make data base, printed on Sun Aug  8 21:15:21 2021
 
 # Variables
 
@@ -49,7 +49,7 @@ VTE_VERSION = 6003
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
-JOURNAL_STREAM = 8:31695
+JOURNAL_STREAM = 8:36715
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 1)
@@ -67,13 +67,13 @@ MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=7da01e914c74968ca9079007610e63bf
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=a7d1c2bca80d8bd6346ceb65610fb8ba
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
 _ = /usr/bin/code
 # environment
-MANAGERPID = 1066
+MANAGERPID = 1099
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
 # environment
@@ -87,7 +87,7 @@ PATH = /home/adel/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/adel:@/tmp/.ICE-unix/1353,unix/adel:/tmp/.ICE-unix/1353
+SESSION_MANAGER = local/adel:@/tmp/.ICE-unix/1437,unix/adel:/tmp/.ICE-unix/1437
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -97,7 +97,7 @@ VSCODE_LOG_STACK = false
 # environment
 VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=83dfd14d-8ffd-4887-9be5-82e66370eac7&iid=83dfd14d-8ffd-4887-9be5-82e66370eac7&sid=83dfd14d-8ffd-4887-9be5-82e66370eac7","uploadToServer":true}
 # environment
-INVOCATION_ID = 733a65905c9f41d9917d562f7e49b1a2
+INVOCATION_ID = faf8b2b541034a6d905651b2f8c25729
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 3)
@@ -123,7 +123,7 @@ src = main.c src/imgProcessingModule.c ../utils/logger/src/logger.c
 # makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 2)
 CFlags = -msse2 -ggdb 
 # environment
-SSH_AGENT_PID = 1303
+SSH_AGENT_PID = 1374
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -171,7 +171,7 @@ CC = gcc
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-a24baf1a-abdd-4c56-8a56-faab3c8023f5.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-a04d4136-23c2-49b7-b00d-069ed250dc15.sock
 # environment
 OMP_NUM_THREADS = 4
 # default
@@ -194,8 +194,6 @@ LC_TELEPHONE = en_CA.UTF-8
 MAKE_COMMAND := make
 # environment
 GIT_PS1_SHOWDIRTYSTATE = 1
-# environment
-OLDPWD = /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule
 # default
 .VARIABLES := 
 # automatic
@@ -241,11 +239,11 @@ DBUS_STARTER_BUS_TYPE = session
 # makefile (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 4)
 LIBS = -lm -pthread
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/c7614dc7_6b22_4143_a66c_e5c5f9098504
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/79d23e5e_c448_4e6a_a68a_ab9d2b202b84
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.119
+GNOME_TERMINAL_SERVICE = :1.138
 # default
 SUFFIXES := 
 # environment
@@ -265,11 +263,11 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 5995
+VSCODE_PID = 13424
 # environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=7da01e914c74968ca9079007610e63bf
+DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=a7d1c2bca80d8bd6346ceb65610fb8ba
 # variable set hash-table stats:
-# Load=128/1024=12%, Rehash=0, Collisions=24/161=15%
+# Load=127/1024=12%, Rehash=0, Collisions=24/160=15%
 
 # Pattern-specific Variable Values
 
@@ -280,6 +278,7 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=7da01e914c74968ca907900
 
 # No files, no impossibilities in 0 directories.
 
+ 
 # Implicit Rules
 
 # No implicit rules.
@@ -295,7 +294,7 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=7da01e914c74968ca907900
 # Not a target:
 /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-08-04 23:21:38.8768419
+#  Last modified 2021-08-08 19:05:02.9435629
 #  File has been updated.
 #  Successfully updated.
 
@@ -372,7 +371,6 @@ profile:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from '/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile', line 39):
- 
 	valgrind --tool=callgrind ./imgModule
 
 valgrind:
@@ -410,6 +408,6 @@ helgrind:
 # strcache performance: lookups = 36 / hit rate = 44%
 # hash-table stats:
 # Load=20/8192=0%, Rehash=0, Collisions=0/36=0%
-# Finished Make data base on Sat Aug  7 13:24:18 2021
+# Finished Make data base on Sun Aug  8 21:15:21 2021
 
  
