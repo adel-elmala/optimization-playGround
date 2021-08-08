@@ -154,6 +154,7 @@ int main(int argc, char **argv)
     stbi_write_png(saveTo8, width, height, channels, (const void *)blended, width * channels);
     stbi_write_png(saveTo9, width, height, channels, (const void *)neg, width * channels);
     stbi_write_png(saveTo10, width3-2, height3-2, 1, (const void *)blurred, (width3-2) * 1);
+    // stbi_write_png(saveTo11, width3-4, height3-4, 1, (const void *)blurredG, (width3-4) * 1);
     stbi_write_png(saveTo11, width3-2, height3-2, 1, (const void *)blurredG, (width3-2) * 1);
 
     stbi_image_free(data);
@@ -169,6 +170,7 @@ int main(int argc, char **argv)
     free(blended);
     free(neg);
     free(blurred);
+    free(blurredG);
 
     return 0;
 }

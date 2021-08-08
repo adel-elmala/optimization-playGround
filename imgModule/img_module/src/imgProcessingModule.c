@@ -405,6 +405,12 @@ unsigned char *guassianBlur(unsigned char *srcData, int width, int height)
     unsigned char avgMask[9] = {1, 2, 1,
                                 2, 4, 2,
                                 1, 2, 1};
+
+    // unsigned char avgMask[25] = {1, 4, 7, 4, 1,
+    //                              4, 16, 26, 16, 4,
+    //                              7, 26, 41, 26, 7,
+    //                              4, 16, 26, 16, 4,
+    //                              1, 4, 7, 4, 1};
     int maskWidth = 3;
     int floatingEdges = maskWidth / 2;
     int padding = floatingEdges * 2;
