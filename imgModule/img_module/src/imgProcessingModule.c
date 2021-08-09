@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <emmintrin.h>
+#include <immintrin.h>
 #include <assert.h>
 #include <sys/sysinfo.h>
 #include <pthread.h>
@@ -383,10 +384,44 @@ unsigned char *negative(unsigned char *srcData, int width, int height, int chann
     return dstStart;
 }
 
+//  gets the negative image of the input image
+unsigned char *negativeSSE2(unsigned char *srcData, int width, int height, int channels)
+{
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * width * height * channels);
+    unsigned char *dstStart = dstData;
+    const unsigned int regSize = 16;
+    const unsigned int nBytes = (width * height * channels);
+    const unsigned int chunks = nBytes / regSize;
+    unsigned int residuial = nBytes - (chunks * regSize);
+    __m128i *srcEnd = ((__m128i *)srcData) + chunks;
+
+    __m128i high = _mm_set1_epi8(0xff);
+
+    for (__m128i *current = (__m128i *)srcData, *dstReg = (__m128i *)dstData; current < srcEnd; ++current, ++dstReg)
+    {
+        // load 32 bytes at once
+        __m128i srcReg = _mm_loadu_si128 ((__m128i const*)current);
+
+        __m128i result = _mm_subs_epu8(high, srcReg);
+        _mm_storeu_si128(dstReg, result);
+    }
+
+    if (residuial != 0)
+    {
+        unsigned char *src = (unsigned char *)srcEnd;
+        unsigned char *dst = (unsigned char *)((__m128i *)dstData + chunks);
+
+        for (; residuial != 0; --residuial)
+            *dst = 255 - *src;
+    }
+
+    return dstStart;
+}
+
 unsigned char *blur(unsigned char *srcData, int width, int height)
 {
-    // unsigned char avgMask[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
-    unsigned char avgMask[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+    unsigned char avgMask[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
+    // unsigned char avgMask[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
     int maskWidth = 3;
     int floatingEdges = maskWidth / 2;
     int padding = floatingEdges * 2;
@@ -394,7 +429,7 @@ unsigned char *blur(unsigned char *srcData, int width, int height)
     unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * (width - padding) * (height - padding));
     unsigned char *dstStart = dstData;
     unsigned char *srcEnd = srcData + (width * height);
-    correlate(srcData, dstData, avgMask, width, height, maskWidth, 9);
+    correlate(srcData, dstData, avgMask, width, height, maskWidth, 1);
 
     return dstStart;
 }

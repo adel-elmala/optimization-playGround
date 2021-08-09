@@ -29,6 +29,8 @@ unsigned char * alphaBlendSSE(unsigned char * srcData1,unsigned char * srcData2,
 
 //  gets the negative image of the input image
 unsigned char * negative(unsigned char * srcData,int width,int height,int channels);
+unsigned char *negativeSSE2(unsigned char *srcData, int width, int height, int channels);
+
 
 
 // works only on 1 channel images

@@ -23,8 +23,9 @@ int main(int argc, char **argv)
     // char const * filename3 = "imgs/bigCat.jpg";
     // char const * filename3 = "imgs/chess.png";
     char const * filename3 = "imgs/snp4.png";
-
+    char const * filename4 = "imgs/mri.png";
     // char const * filename = "imgs/hires.jpg";
+
     char const *saveTo1 = "imgs/Thesholded-seq.jpg";
     char const *saveTo2 = "imgs/Thesholded-unroll.jpg";
     char const *saveTo3 = "imgs/Thesholded-fast.jpg";
@@ -37,6 +38,7 @@ int main(int argc, char **argv)
     char const *saveTo8 = "imgs/blend.jpg";
     // -----------------------------
     char const *saveTo9 = "imgs/negative.jpg";
+    char const *saveTo12 = "imgs/negativeAVX.jpg";
     // -----------------------------
     char const *saveTo10 = "imgs/blurred.jpg";
     char const *saveTo11 = "imgs/blurredGuassian.jpg";
@@ -44,11 +46,14 @@ int main(int argc, char **argv)
     int width, height, channels;
     int width2, height2, channels2;
     int width3, height3, channels3 = 1;
-    unsigned char thresholdVal = 255;
+    int width4, height4, channels4;
+    unsigned char thresholdVal = 125;
 
     unsigned char *data = stbi_load(filename, &width, &height, &channels, 0);
     unsigned char *data2 = stbi_load(filename2, &width2, &height2, &channels2, 0);
     unsigned char *data3 = stbi_load(filename3, &width3, &height3, &channels3, 1);
+    unsigned char *data4 = stbi_load(filename4, &width4, &height4, &channels4, 0);
+
     unsigned char *dstData1 = (unsigned char *)malloc(sizeof(unsigned char) * width * height * channels);
     unsigned char *dstData2 = (unsigned char *)malloc(sizeof(unsigned char) * width * height * channels);
     unsigned char *dstData3 = (unsigned char *)malloc(sizeof(unsigned char) * width * height * channels);
@@ -63,6 +68,7 @@ int main(int argc, char **argv)
     printf("%s:\nwidth: %d px,\theight: %d px,\tchannels: %d\n", filename, width, height, channels);
     printf("%s:\nwidth: %d px,\theight: %d px,\tchannels: %d\n", filename2, width2, height2, channels2);
     printf("%s:\nwidth: %d px,\theight: %d px,\tchannels: %d\n", filename3, width3, height3, channels3);
+    printf("%s:\nwidth: %d px,\theight: %d px,\tchannels: %d\n", filename4, width4, height4, channels4);
     // logEndLine();
     logStartLine("testing thresholdXXXX()");
     startTimer();
@@ -121,10 +127,16 @@ int main(int argc, char **argv)
     logStartLine("testing 'negative()");
 
     startTimer();
-    unsigned char *neg = negative(data, width, height, channels);
+    unsigned char *neg = negative(data4, width4, height4, channels4);
     uSec = endTimer();
     // timeMeasures[4] = uSec;
     logInfo("'negative()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
+
+    startTimer();
+    unsigned char *negSSE2 = negativeSSE2(data4, width4, height4, channels4);
+    uSec = endTimer();
+    // timeMeasures[4] = uSec;
+    logInfo("'negativeAVX()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
 
 
     logStartLine("testing 'blurXXX()");
@@ -152,7 +164,10 @@ int main(int argc, char **argv)
     stbi_write_png(saveTo7, 200, 200, channels, (const void *)croppedSlow, 200 * channels);
     // stbi_write_png(saveTo7, width,height,channels, (const void *)croppedSlow, width * channels);
     stbi_write_png(saveTo8, width, height, channels, (const void *)blended, width * channels);
-    stbi_write_png(saveTo9, width, height, channels, (const void *)neg, width * channels);
+    
+    stbi_write_png(saveTo9, width4, height4, channels4, (const void *)neg, width4 * channels4);
+    stbi_write_png(saveTo12, width4, height4, channels4, (const void *)negSSE2, width4 * channels4);
+
     stbi_write_png(saveTo10, width3-2, height3-2, 1, (const void *)blurred, (width3-2) * 1);
     // stbi_write_png(saveTo11, width3-4, height3-4, 1, (const void *)blurredG, (width3-4) * 1);
     stbi_write_png(saveTo11, width3-2, height3-2, 1, (const void *)blurredG, (width3-2) * 1);
@@ -160,6 +175,7 @@ int main(int argc, char **argv)
     stbi_image_free(data);
     stbi_image_free(data2);
     stbi_image_free(data3);
+    stbi_image_free(data4);
     free(dstData1);
     free(dstData2);
     free(dstData3);
@@ -169,6 +185,7 @@ int main(int argc, char **argv)
     free(croppedSlow);
     free(blended);
     free(neg);
+    free(negSSE2);
     free(blurred);
     free(blurredG);
 

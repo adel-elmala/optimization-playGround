@@ -2,13 +2,19 @@ make all -f "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround
 make: *** No rule to make target 'all'.  Stop.
  
 # GNU Make 4.2.1
+ 
 # Built for x86_64-pc-linux-gnu
+ 
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
+ 
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ 
 # This is free software: you are free to change and redistribute it.
+ 
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Sun Aug  8 21:15:21 2021
+# Make data base, printed on Mon Aug  9 02:17:22 2021
 
 # Variables
 
@@ -76,6 +82,7 @@ _ = /usr/bin/code
 MANAGERPID = 1099
 # environment
 LESSOPEN = | /usr/bin/lesspipe %s
+ 
 # environment
 LC_NAME = en_CA.UTF-8
 # environment
@@ -278,7 +285,6 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=a7d1c2bca80d8bd6346ceb6
 
 # No files, no impossibilities in 0 directories.
 
- 
 # Implicit Rules
 
 # No implicit rules.
@@ -294,7 +300,7 @@ DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=a7d1c2bca80d8bd6346ceb6
 # Not a target:
 /media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-08-08 19:05:02.9435629
+#  Last modified 2021-08-09 02:17:15.9123054
 #  File has been updated.
 #  Successfully updated.
 
@@ -353,6 +359,7 @@ include/stb_image_resize.h:
 #  File has not been updated.
 
 clean:
+ 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -408,6 +415,6 @@ helgrind:
 # strcache performance: lookups = 36 / hit rate = 44%
 # hash-table stats:
 # Load=20/8192=0%, Rehash=0, Collisions=0/36=0%
-# Finished Make data base on Sun Aug  8 21:15:21 2021
+# Finished Make data base on Mon Aug  9 02:17:22 2021
 
  
