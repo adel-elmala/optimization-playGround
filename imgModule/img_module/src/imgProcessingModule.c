@@ -420,8 +420,8 @@ unsigned char *negativeSSE2(unsigned char *srcData, int width, int height, int c
 
 unsigned char *blur(unsigned char *srcData, int width, int height)
 {
-    unsigned char avgMask[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
-    // unsigned char avgMask[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
+    // unsigned char avgMask[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
+    unsigned char avgMask[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1};
     int maskWidth = 3;
     int floatingEdges = maskWidth / 2;
     int padding = floatingEdges * 2;
@@ -429,7 +429,7 @@ unsigned char *blur(unsigned char *srcData, int width, int height)
     unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * (width - padding) * (height - padding));
     unsigned char *dstStart = dstData;
     unsigned char *srcEnd = srcData + (width * height);
-    correlate(srcData, dstData, avgMask, width, height, maskWidth, 1);
+    correlate(srcData, dstData, avgMask, width, height, maskWidth, 9);
 
     return dstStart;
 }
@@ -494,18 +494,19 @@ void correlate(unsigned char *srcData, unsigned char *dstData, unsigned char *ma
 // works only with single-channel imgs
 unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, int srcWidth, int srcHeight, int templWidth, int templHeight)
 {
-    unsigned char* dstData = (unsigned char*) malloc(sizeof(unsigned char) * srcWidth * srcHeight); 
-    correlate(srcData,dstData,template,srcWidth,srcHeight,templWidth,128);
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * srcWidth * srcHeight);
+    correlate(srcData, dstData, template, srcWidth, srcHeight, templWidth, 1);
     return dstData;
 }
 
 unsigned char *sobelX(unsigned char *srcData, int width, int height)
 {
     // unsigned char sobel[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
-
+    
+    // :FIXME: correlation to accept negative values
     unsigned char sobel[9] = {-1, 0, 1,
-                                -2, 0, 2,
-                                -1, 0, 1};
+                              -2, 0, 2,
+                              -1, 0, 1};
     int maskWidth = 3;
     int floatingEdges = maskWidth / 2;
     int padding = floatingEdges * 2;

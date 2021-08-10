@@ -18,7 +18,17 @@ src = main.c \
 	# ../utils/plotter/src/plotter.c \
 	# ../utils/plotter/libs/gnuPlot/gnuplot_i.c 
 
-# VPATH = .:src:bin
+src2 = src/testBed.c \
+	src/imgProcessingModule.c \
+	../utils/logger/src/logger.c \
+	# ../utils/plotter/src/plotter.c \
+	# ../utils/plotter/libs/gnuPlot/gnuplot_i.c 
+
+
+
+testBed:$(src2) $(headers) 
+	$(CC) $(CFlags) $(INCLUDE) $(src2) $(LIBS)  -o $@ 
+
 
 imgModule:$(src) $(headers) 
 	$(CC) $(CFlags) $(INCLUDE) $(src) $(LIBS)  -o $@ 
@@ -33,7 +43,7 @@ clean:
 	rm -r ./bin/*
 
 valgrind:
-	valgrind --leak-check=full --show-leak-kinds=all ./imgModule
+	valgrind --leak-check=full --show-leak-kinds=all ./testBed
 
 profile:
 	valgrind --tool=callgrind ./imgModule
