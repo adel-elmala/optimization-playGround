@@ -5,6 +5,7 @@
 #include <sys/sysinfo.h>
 #include <pthread.h>
 #include <string.h>
+#include <math.h>
 
 #include "imgProcessingModule.h"
 
@@ -572,5 +573,146 @@ unsigned char *sobelY(unsigned char *srcData, int width, int height)
     // unsigned char *srcEnd = srcData + (width * height);
     correlateSigned(srcData, dstData, sobel, width, height, maskWidth, 8);
 
+    return dstStart;
+}
+
+unsigned char *EdgeDetection(unsigned char *srcData, int width, int height)
+{
+
+    unsigned char *dx = sobelX(srcData, width, height);
+    unsigned char *dy = sobelY(srcData, width, height);
+    unsigned char *dx2 = imgMultiply(dx, dx, width - 2, height - 2);
+    unsigned char *dy2 = imgMultiply(dy, dy, width - 2, height - 2);
+    unsigned char *dx2_plus_dy2 = imgAdd(dx2, dy2, width - 2, height - 2);
+    unsigned char *dx2_plus_dy2_sqrt = imgSqrt(dx2_plus_dy2, width - 2, height - 2);
+}
+
+unsigned char *imgMultiply(unsigned char *img1, unsigned char *img2, int width, int height)
+{
+
+    __m128i zeroReg = _mm_setzero_si128();
+    int nBytes = width * height;
+    unsigned char *dstData = malloc(sizeof(unsigned char) * nBytes);
+    unsigned char *dstStart = dstData;
+
+    int registerSize = 16;
+    int chunks = nBytes / registerSize;
+    int residual = nBytes - (chunks * registerSize);
+    __m128i *src1End = (__m128i *)img1 + chunks;
+    __m128i *dstReg = (__m128i *)dstData;
+
+    for (__m128i *src1 = (__m128i *)img1, *src2 = (__m128i *)img2; src1 < src1End; ++src1, ++src2, ++dstReg)
+    {
+
+        // load 16 bytes from each img
+        __m128i srcReg1 = _mm_loadu_si128((__m128i const *)src1);
+        __m128i srcReg2 = _mm_loadu_si128((__m128i const *)src2);
+        // unpack into 16-bit to make room for multiplication
+        __m128i srcReg1_Lo16 = _mm_unpacklo_epi8(srcReg1, zeroReg);
+        __m128i srcReg1_Hi16 = _mm_unpackhi_epi8(srcReg1, zeroReg);
+
+        // unpack into 16-bit to make room for multiplication
+        __m128i srcReg2_Lo16 = _mm_unpacklo_epi8(srcReg2, zeroReg);
+        __m128i srcReg2_Hi16 = _mm_unpackhi_epi8(srcReg2, zeroReg);
+
+        __m128i rslt_Lo16 = _mm_mullo_epi16(srcReg1_Lo16, srcReg2_Lo16);
+        __m128i rslt_Hi16 = _mm_mullo_epi16(srcReg1_Hi16, srcReg2_Hi16);
+        __m128i rslt = _mm_packus_epi16(rslt_Lo16, rslt_Hi16);
+        _mm_storeu_si128(dstReg, rslt);
+    }
+    if (residual != 0)
+    {
+        // __m128i *src1End = (__m128i *)img1 + chunks;
+        unsigned char *src1 = (unsigned char *)((__m128i *)img1 + chunks);
+        unsigned char *src2 = (unsigned char *)((__m128i *)img2 + chunks);
+        unsigned char *dst = (unsigned char *)((__m128i *)dstData + chunks);
+        unsigned char *src1End = img1 + nBytes;
+        while (src1 < src1End)
+        {
+            *dst = (*src1) * (*src2);
+            ++src1;
+            ++src2;
+            ++dst;
+        }
+    }
+    return dstStart;
+}
+
+unsigned char *imgAdd(unsigned char *img1, unsigned char *img2, int width, int height)
+{
+
+    int nBytes = width * height;
+    unsigned char *dstData = malloc(sizeof(unsigned char) * nBytes);
+    unsigned char *dstStart = dstData;
+    int registerSize = 16;
+    int chunks = nBytes / registerSize;
+    int residual = nBytes - (chunks * registerSize);
+
+    __m128i *src1End = (__m128i *)img1 + chunks;
+    __m128i *dstReg = (__m128i *)dstData;
+
+    for (__m128i *src1 = (__m128i *)img1, *src2 = (__m128i *)img2; src1 < src1End; ++src1, ++src2, ++dstReg)
+    {
+
+        // load 16 bytes from each img
+        __m128i srcReg1 = _mm_loadu_si128((__m128i const *)src1);
+        __m128i srcReg2 = _mm_loadu_si128((__m128i const *)src2);
+        // add them
+        __m128i rslt = _mm_adds_epu8(srcReg1, srcReg2);
+        _mm_storeu_si128(dstReg, rslt);
+    }
+    if (residual != 0)
+    {
+        // __m128i *src1End = (__m128i *)img1 + chunks;
+        unsigned char *src1 = (unsigned char *)((__m128i *)img1 + chunks);
+        unsigned char *src2 = (unsigned char *)((__m128i *)img2 + chunks);
+        unsigned char *dst = (unsigned char *)((__m128i *)dstData + chunks);
+        unsigned char *src1End = img1 + nBytes;
+        while (src1 < src1End)
+        {
+            *dst = (*src1) + (*src2);
+            ++src1;
+            ++src2;
+            ++dst;
+        }
+    }
+    return dstStart;
+}
+
+unsigned char *imgSqrt(unsigned char *srcData, int width, int height)
+{
+
+    int nBytes = width * height;
+    unsigned char *dstData = malloc(sizeof(unsigned char) * nBytes);
+    unsigned char *dstStart = dstData;
+    int chuncks = nBytes / 4;
+    unsigned char *srcEnd = srcData + (chuncks * 4);
+    int residual = nBytes - (chuncks * 4);
+
+    for (unsigned char *src = srcData; src < srcEnd; src += 4, dstData += 4)
+    {
+        float result1 = sqrtf((float)(*src));
+        float result2 = sqrtf((float)(*(src + 1)));
+        float result3 = sqrtf((float)(*(src + 2)));
+        float result4 = sqrtf((float)(*(src + 3)));
+        *dstData = result1 > 255.0f ? (unsigned char)255 : (unsigned char)result1;
+        *(dstData + 1) = result2 > 255.0f ? (unsigned char)255 : (unsigned char)result2;
+        *(dstData + 2) = result3 > 255.0f ? (unsigned char)255 : (unsigned char)result3;
+        *(dstData + 3) = result4 > 255.0f ? (unsigned char)255 : (unsigned char)result4;
+    }
+    if(residual != 0)
+    {
+        unsigned char* sStart = srcEnd;
+        unsigned char* sEnd = srcData + nBytes;
+        unsigned char* dst = dstData;
+        while(sStart < sEnd)
+        {
+            float result1 = sqrtf((float)(*sStart));
+            *dst = result1 > 255.0f ? (unsigned char)255 : (unsigned char)result1;
+            ++sStart;
+            ++dst;
+        }
+
+    }
     return dstStart;
 }

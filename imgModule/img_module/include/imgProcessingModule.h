@@ -1,6 +1,8 @@
 #ifndef IMGPROCESSINGMODULE_H
 #define IMGPROCESSINGMODULE_H
 
+void testFeatureSupport(void);
+
 void threshold(unsigned char *srcData, unsigned char *dstData, int width, int height, int channels, unsigned char thresholdValue);
 
 void thresholdUnrolled(unsigned char *srcData, unsigned char *dstData, int width, int height, int channels, unsigned char thresholdValue);
@@ -33,6 +35,9 @@ unsigned char *sobelY(unsigned char *srcData, int width, int height);
 void correlate(unsigned char *srcData, unsigned char *dstData, unsigned char *mask, int width, int height, int maskWidth, int divBy);
 void correlateSigned(unsigned char *srcData, unsigned char *dstData, double *mask, int width, int height, int maskWidth, int divBy);
 
-void testFeatureSupport(void);
+unsigned char *EdgeDetection(unsigned char *srcData, int width, int height);
+unsigned char *imgMultiply(unsigned char *img1, unsigned char *img2, int width, int height);
+unsigned char *imgAdd(unsigned char *img1, unsigned char *img2, int width, int height);
+unsigned char *imgSqrt(unsigned char *srcData, int width, int height);
 
 #endif
