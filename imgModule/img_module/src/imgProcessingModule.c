@@ -457,6 +457,42 @@ unsigned char *guassianBlur(unsigned char *srcData, int width, int height)
 
     return dstStart;
 }
+
+void correlateSigned(unsigned char *srcData, unsigned char *dstData, double *mask, int width, int height, int maskWidth, int divBy)
+{
+
+    int floatingEdges = maskWidth / 2;
+    int padding = floatingEdges * 2;
+
+    // unsigned char *srcStart = srcData + (width * channels * floatingEdges) + (channels * floatingEdges);
+    int rowEnd = height - floatingEdges;
+    int colEnd = width - floatingEdges;
+    // for each row
+    for (int i = floatingEdges, i2 = 0; i < rowEnd; ++i, ++i2)
+    {
+        // for each col
+        for (int j = floatingEdges, j2 = 0; j < colEnd; ++j, ++j2)
+        {
+            double sum = 0;
+            // for mask rows
+            for (int k = 0; k < maskWidth; ++k)
+            {
+                // for mask cols
+                for (int l = 0; l < maskWidth; ++l)
+                {
+                    int relativeRow = -floatingEdges + k;
+                    int relativeCol = -floatingEdges + l;
+                    sum += mask[(k * maskWidth) + l] * ((double)srcData[((i + relativeRow) * width) + (j + relativeCol)]);
+                }
+            }
+            sum /= (double)divBy;
+            if (sum > 255.0)
+                sum = 255.0;
+            dstData[(i2 * (width - padding)) + j2] = (unsigned char)sum;
+        }
+    }
+}
+
 void correlate(unsigned char *srcData, unsigned char *dstData, unsigned char *mask, int width, int height, int maskWidth, int divBy)
 {
     int floatingEdges = maskWidth / 2;
@@ -502,11 +538,11 @@ unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, in
 unsigned char *sobelX(unsigned char *srcData, int width, int height)
 {
     // unsigned char sobel[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
-    
+
     // :FIXME: correlation to accept negative values
-    unsigned char sobel[9] = {-1, 0, 1,
-                              -2, 0, 2,
-                              -1, 0, 1};
+    double sobel[9] = {-1, 0, 1,
+                       -2, 0, 2,
+                       -1, 0, 1};
     int maskWidth = 3;
     int floatingEdges = maskWidth / 2;
     int padding = floatingEdges * 2;
@@ -514,7 +550,27 @@ unsigned char *sobelX(unsigned char *srcData, int width, int height)
     unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * (width - padding) * (height - padding));
     unsigned char *dstStart = dstData;
     // unsigned char *srcEnd = srcData + (width * height);
-    correlate(srcData, dstData, sobel, width, height, maskWidth, 8);
+    correlateSigned(srcData, dstData, sobel, width, height, maskWidth, 8);
+
+    return dstStart;
+}
+
+unsigned char *sobelY(unsigned char *srcData, int width, int height)
+{
+    // unsigned char sobel[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
+
+    // :FIXME: correlation to accept negative values
+    double sobel[9] = {1, 2, 1,
+                       0, 0, 0,
+                       -1, -2, -1};
+    int maskWidth = 3;
+    int floatingEdges = maskWidth / 2;
+    int padding = floatingEdges * 2;
+
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * (width - padding) * (height - padding));
+    unsigned char *dstStart = dstData;
+    // unsigned char *srcEnd = srcData + (width * height);
+    correlateSigned(srcData, dstData, sobel, width, height, maskWidth, 8);
 
     return dstStart;
 }

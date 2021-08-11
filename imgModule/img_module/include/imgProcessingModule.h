@@ -26,11 +26,13 @@ unsigned char *negativeSSE2(unsigned char *srcData, int width, int height, int c
 unsigned char *blur(unsigned char *srcData, int width, int height);
 unsigned char *guassianBlur(unsigned char *srcData, int width, int height);
 
-
 unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, int srcWidth, int srcHeight, int templWidth, int templHeight);
 unsigned char *sobelX(unsigned char *srcData, int width, int height);
+unsigned char *sobelY(unsigned char *srcData, int width, int height);
 
 void correlate(unsigned char *srcData, unsigned char *dstData, unsigned char *mask, int width, int height, int maskWidth, int divBy);
+void correlateSigned(unsigned char *srcData, unsigned char *dstData, double *mask, int width, int height, int maskWidth, int divBy);
+
 void testFeatureSupport(void);
 
 #endif

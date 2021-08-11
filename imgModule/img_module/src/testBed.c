@@ -16,12 +16,12 @@
 int main(int argc, char **argv)
 {
 
-    const char *filename = "imgs/original/lena.jpg";
+    const char *filename = "imgs/original/chess.png";
     // const char *filename = "imgs/original/snp2.png";
 
     char const *saveTo = "imgs/results/data.png";
-    char const *saveTo1 = "imgs/results/match.png";
-    char const *saveTo2 = "imgs/results/template.png";
+    char const *saveTo1 = "imgs/results/sobelx.png";
+    char const *saveTo2 = "imgs/results/sobely.png";
 
     int width, height, channels;
 
@@ -30,23 +30,23 @@ int main(int argc, char **argv)
     printf("%s:\nwidth: %d px,\theight: %d px,\tchannels: %d\n", filename, width, height, channels);
 
     // -----------------------------------------------------------
-    unsigned char *template = crop(data, width, height, 1, 190, 241, 190, 241);
 
-    logStartLine("testing 'templateMatch()");
+    logStartLine("testing 'sobel()");
     startTimer();
 
-    unsigned char *templateMatching = templateMatch(data, template, width, height, 51, 51);
+    unsigned char * sobelx = sobelX(data, width, height);
+    unsigned char * sobely = sobelY(data, width, height);
     int uSec = endTimer();
-    logInfo("'templateMatch()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
+    logInfo("'sobelX()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
 
     stbi_write_png(saveTo, width, height, 1, (const void *)data, (width)*1);
-    stbi_write_png(saveTo1, width - 50, height - 50, 1, (const void *)templateMatching, (width - 50) * 1);
-    stbi_write_png(saveTo2, 51, 51, 1, (const void *)template, 51 * 1);
+    stbi_write_png(saveTo1, width - 2, height - 2, 1, (const void *)sobelx, (width - 2) * 1);
+    stbi_write_png(saveTo2, width - 2, height - 2, 1, (const void *)sobely, (width - 2) * 1);
 
     // -----------------------------------------------------------
     stbi_image_free(data);
-    free(templateMatching);
-    free(template);
+    free(sobelx);
+    free(sobely);
 
     return 0;
 }

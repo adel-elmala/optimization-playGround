@@ -1,3 +1,7 @@
+#custom
+*/.vscode/*
+.vscode/*
+*.log
 # Prerequisites
 *.d
 
