@@ -459,6 +459,32 @@ unsigned char *guassianBlur(unsigned char *srcData, int width, int height)
     return dstStart;
 }
 
+unsigned char *guassianBlur5X5(unsigned char *srcData, int width, int height)
+{
+    // unsigned char avgMask[9] = {0, 0, 0, 0, 1, 0, 0, 0, 0}; // check is same image :DONE:
+    unsigned char avgMask[25] = {2, 4, 5, 4, 2,
+                                 4, 9, 12, 9, 4,
+                                 5, 12, 15, 12, 5,
+                                 4, 9, 12, 9, 4,
+                                 2, 4, 5, 4, 2};
+
+    // unsigned char avgMask[25] = {1, 4, 7, 4, 1,
+    //                              4, 16, 26, 16, 4,
+    //                              7, 26, 41, 26, 7,
+    //                              4, 16, 26, 16, 4,
+    //                              1, 4, 7, 4, 1};
+    int maskWidth = 5;
+    int floatingEdges = maskWidth / 2;
+    int padding = floatingEdges * 2;
+
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * (width - padding) * (height - padding));
+    unsigned char *dstStart = dstData;
+    unsigned char *srcEnd = srcData + (width * height);
+    correlate(srcData, dstData, avgMask, width, height, maskWidth, 159);
+
+    return dstStart;
+}
+
 void correlateSigned(unsigned char *srcData, unsigned char *dstData, double *mask, int width, int height, int maskWidth, int divBy)
 {
 
@@ -528,13 +554,13 @@ void correlate(unsigned char *srcData, unsigned char *dstData, unsigned char *ma
     }
 }
 
-// works only with single-channel imgs
-unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, int srcWidth, int srcHeight, int templWidth, int templHeight)
-{
-    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * srcWidth * srcHeight);
-    correlate(srcData, dstData, template, srcWidth, srcHeight, templWidth, 1);
-    return dstData;
-}
+// // works only with single-channel imgs
+// unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, int srcWidth, int srcHeight, int templWidth, int templHeight)
+// {
+//     unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * srcWidth * srcHeight);
+//     correlate(srcData, dstData, template, srcWidth, srcHeight, templWidth, 1);
+//     return dstData;
+// }
 
 unsigned char *sobelX(unsigned char *srcData, int width, int height)
 {
@@ -578,16 +604,111 @@ unsigned char *sobelY(unsigned char *srcData, int width, int height)
 
 unsigned char *EdgeDetection(unsigned char *srcData, int width, int height)
 {
+    unsigned char *blurred = guassianBlur5X5(srcData, width, height);
 
-    unsigned char *dx = sobelX(srcData, width, height);
-    unsigned char *dy = sobelY(srcData, width, height);
-    unsigned char *dx2 = imgMultiply(dx, dx, width - 2, height - 2);
-    unsigned char *dy2 = imgMultiply(dy, dy, width - 2, height - 2);
-    unsigned char *dx2_plus_dy2 = imgAdd(dx2, dy2, width - 2, height - 2);
-    unsigned char *dx2_plus_dy2_sqrt = imgSqrt(dx2_plus_dy2, width - 2, height - 2);
+    unsigned char *dx = sobelX(blurred, width - 4, height - 4);
+    unsigned char *dy = sobelY(blurred, width - 4, height - 4);
+    int newWidth = width - 6;
+    int newHeight = height - 6;
+    unsigned char *dx2 = imgMultiply(dx, dx, newWidth, newHeight);
+    unsigned char *dy2 = imgMultiply(dy, dy, newWidth, newHeight);
+    unsigned char *dx2_plus_dy2 = imgAdd(dx2, dy2, newWidth, newHeight);
+    unsigned char *gradient_mag = imgSqrt(dx2_plus_dy2, newWidth, newHeight);
+   
+
+    // unsigned char *dx = sobelX(srcData, width, height);
+    // unsigned char *dy = sobelY(srcData, width, height);
+    // unsigned char *dx2 = imgMultiply(dx, dx, width - 2, height - 2);
+    // unsigned char *dy2 = imgMultiply(dy, dy, width - 2, height - 2);
+    // unsigned char *dx2_plus_dy2 = imgAdd(dx2, dy2, width - 2, height - 2);
+    // unsigned char *gradient_mag = imgSqrt(dx2_plus_dy2, width - 2, height - 2);
+
+    free(dx);
+    free(dy);
+    free(dx2);
+    free(dy2);
+    free(dx2_plus_dy2);
+    // free(gradient_mag);
+    return gradient_mag;
+    
 }
 
-unsigned char *imgMultiply(unsigned char *img1, unsigned char *img2, int width, int height)
+unsigned char *canny(unsigned char *srcData, int width, int height)
+{
+    unsigned char *blurred = guassianBlur5X5(srcData, width, height);
+
+    unsigned char *dx = sobelX(blurred, width - 4, height - 4);
+    unsigned char *dy = sobelY(blurred, width - 4, height - 4);
+    int newWidth = width - 6;
+    int newHeight = height - 6;
+    unsigned char *dx2 = imgMultiply(dx, dx, newWidth, newHeight);
+    unsigned char *dy2 = imgMultiply(dy, dy, newWidth, newHeight);
+    unsigned char *dx2_plus_dy2 = imgAdd(dx2, dy2, newWidth, newHeight);
+    unsigned char *gradient_mag = imgSqrt(dx2_plus_dy2, newWidth, newHeight);
+    unsigned char *gradient_direction = imgAtan2(dy, dx, newWidth, newHeight);
+    unsigned char *nonMaxThresholded = non_maximum_Suppression(gradient_mag, gradient_direction, newWidth, newHeight);
+    // unsigned char *hyst = hysteresis(nonMaxThresholded, newWidth, newHeight, 70);
+
+    free(dx);
+    free(dy);
+    free(dx2);
+    free(dy2);
+    free(dx2_plus_dy2);
+    free(gradient_mag);
+    free(gradient_direction);
+    // free(nonMaxThresholded);
+    return blurred;
+}
+unsigned char *non_maximum_Suppression(unsigned char *grad_mag, unsigned char *grad_dir, int width, int height)
+{
+    // for each pixel in grad_mag
+    // check direction of grad_dir
+    // and threshold if it's the max between neighbors
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * width * height);
+    memset(dstData, 0, width * height);
+
+    unsigned char *srcEnd = grad_mag + (width * (height - 1)) - 1;
+    int counter = 0;
+    int newWidth = width - 2;
+    for (unsigned char *srcMag = (grad_mag + width + 1), *srcDir = (grad_dir + width + 1), *dst = (dstData + width + 1); srcMag < srcEnd; ++srcMag, ++srcDir, ++dst)
+    {
+        unsigned char pix = *srcMag;
+        unsigned char dir = *srcDir;
+        if (dir == 0)
+        {
+            if ((pix != 0) && ((pix) >= (*(srcMag + 1))) && ((pix) >= (*(srcMag - 1))))
+                *dst = pix;
+        }
+        else if (dir == 45)
+        {
+            // unsigned char pix = *srcMag;
+            if ((pix != 0) && ((pix) >= (*(srcMag - (width) + 1))) && ((pix) >= (*(srcMag + (width)-1))))
+                *dst = pix;
+        }
+        else if (dir == 90)
+        {
+            // unsigned char pix = *srcMag;
+            if ((pix != 0) && ((pix) >= (*(srcMag - width))) && ((pix) >= (*(srcMag + width))))
+                *dst = pix;
+        }
+        else if (dir == 135)
+        {
+            if ((pix != 0) && ((pix) >= (*(srcMag - width - 1))) && ((pix) >= (*(srcMag + width + 1))))
+                *dst = pix;
+        }
+
+        ++counter;
+        if ((counter % newWidth) == 0)
+        {
+            ++srcMag;
+            ++srcDir;
+            ++dst;
+        }
+    }
+    return dstData;
+}
+
+unsigned char *imgMultiplySSE(unsigned char *img1, unsigned char *img2, int width, int height)
 {
 
     __m128i zeroReg = _mm_setzero_si128();
@@ -700,19 +821,207 @@ unsigned char *imgSqrt(unsigned char *srcData, int width, int height)
         *(dstData + 2) = result3 > 255.0f ? (unsigned char)255 : (unsigned char)result3;
         *(dstData + 3) = result4 > 255.0f ? (unsigned char)255 : (unsigned char)result4;
     }
-    if(residual != 0)
+    if (residual != 0)
     {
-        unsigned char* sStart = srcEnd;
-        unsigned char* sEnd = srcData + nBytes;
-        unsigned char* dst = dstData;
-        while(sStart < sEnd)
+        unsigned char *sStart = srcEnd;
+        unsigned char *sEnd = srcData + nBytes;
+        unsigned char *dst = dstData;
+        while (sStart < sEnd)
         {
             float result1 = sqrtf((float)(*sStart));
             *dst = result1 > 255.0f ? (unsigned char)255 : (unsigned char)result1;
             ++sStart;
             ++dst;
         }
-
     }
     return dstStart;
+}
+
+
+unsigned char *imgMultiply(unsigned char *img1, unsigned char *img2, int width, int height)
+{
+
+    int nBytes = width * height;
+    unsigned char *dstData = malloc(sizeof(unsigned char) * nBytes);
+    unsigned char *dstStart = dstData;
+    int chuncks = nBytes / 4;
+    unsigned char *srcEnd = img1 + (chuncks * 4);
+    unsigned char *srcEnd2 = img2 + (chuncks * 4);
+    int residual = nBytes - (chuncks * 4);
+
+    for (unsigned char *src1 = img1, *src2 = img2; src1 < srcEnd; src1 += 4, src2 += 4, dstData += 4)
+    {
+        long int result1 = ((long int)(*src1)) * ((long int)(*src2));
+        long int result2 = ((long int)(*(src1 + 1))) * ((long int)(*(src2 + 1)));
+        long int result3 = ((long int)(*(src1 + 2))) * ((long int)(*(src2 + 2)));
+        long int result4 = ((long int)(*(src1 + 3))) * ((long int)(*(src2 + 3)));
+
+        *dstData = result1 > 255 ? (unsigned char)255 : (unsigned char)result1;
+        *(dstData + 1) = result2 > 255 ? (unsigned char)255 : (unsigned char)result2;
+        *(dstData + 2) = result3 > 255 ? (unsigned char)255 : (unsigned char)result3;
+        *(dstData + 3) = result4 > 255 ? (unsigned char)255 : (unsigned char)result4;
+    
+    }
+    if (residual != 0)
+    {
+        unsigned char *sStart1 = srcEnd;
+        unsigned char *sStart2 = srcEnd2;
+        unsigned char *sEnd = img1 + nBytes;
+        unsigned char *dst = dstData;
+        while (sStart1 < sEnd)
+        {
+        
+            long int result1 = ((long int)(*sStart1)) * ((long int)(*sStart2));
+            *dst = result1 > 255 ? (unsigned char)255 : (unsigned char)result1;
+
+            ++sStart1;
+            ++sStart2;
+            ++dst;
+        }
+    }
+    return dstStart;
+
+}
+
+unsigned char *imgAtan2(unsigned char *srcData1, unsigned char *srcData2, int width, int height)
+{
+
+    int nBytes = width * height;
+    unsigned char *dstData = malloc(sizeof(unsigned char) * nBytes);
+    unsigned char *dstStart = dstData;
+    int chuncks = nBytes / 4;
+    unsigned char *srcEnd = srcData1 + (chuncks * 4);
+    unsigned char *srcEnd2 = srcData2 + (chuncks * 4);
+    int residual = nBytes - (chuncks * 4);
+
+    for (unsigned char *src1 = srcData1, *src2 = srcData2; src1 < srcEnd; src1 += 4, src2 += 4, dstData += 4)
+    {
+        // TODO: need to check values of atan2 if in rad or deg
+        float result1 = atan2f((float)(*src1), (float)(*src2));
+        float result2 = atan2f((float)(*(src1 + 1)), (float)(*(src2 + 1)));
+        float result3 = atan2f((float)(*(src1 + 2)), (float)(*(src2 + 2)));
+        float result4 = atan2f((float)(*(src1 + 3)), (float)(*(src2 + 3)));
+
+        result1 = getQuadrant(result1);
+        result2 = getQuadrant(result2);
+        result3 = getQuadrant(result3);
+        result4 = getQuadrant(result4);
+
+        *dstData = (unsigned char)result1;
+        *(dstData + 1) = (unsigned char)result2;
+        *(dstData + 2) = (unsigned char)result3;
+        *(dstData + 3) = (unsigned char)result4;
+    }
+    if (residual != 0)
+    {
+        unsigned char *sStart1 = srcEnd;
+        unsigned char *sStart2 = srcEnd2;
+        unsigned char *sEnd = srcData1 + nBytes;
+        unsigned char *dst = dstData;
+        while (sStart1 < sEnd)
+        {
+            float result1 = atan2f((float)(*sStart1), (float)(*sStart2));
+            result1 = getQuadrant(result1);
+
+            *dst = (unsigned char)result1;
+            ++sStart1;
+            ++sStart2;
+            ++dst;
+        }
+    }
+    return dstStart;
+}
+
+inline float getQuadrant(float x)
+{
+    float angle = (x / 3.14) * 180;
+    float diff_from_0 = angle;
+    float diff_from_45 = fabsf(angle - 45.0f);
+    float diff_from_90 = fabsf(angle - 90.0f);
+    float diff_from_135 = fabsf(angle - 135.0f);
+
+    float diff_from_180 = fabsf(angle - 180.0f);
+    float diff_from_225 = fabsf(angle - 225.0f);
+    float diff_from_270 = fabsf(angle - 270.0f);
+    float diff_from_315 = fabsf(angle - 315.0f);
+
+    float min = fminf(diff_from_0, diff_from_45);
+    min = fminf(min, diff_from_90);
+    min = fminf(min, diff_from_135);
+    min = fminf(min, diff_from_180);
+    min = fminf(min, diff_from_225);
+    min = fminf(min, diff_from_270);
+    min = fminf(min, diff_from_315);
+    if ((min == diff_from_0) || (min == diff_from_180))
+        return 0.0f;
+    else if ((min == diff_from_45) || (min == diff_from_225))
+        return 45.0f;
+    else if ((min == diff_from_90) || (min == diff_from_270))
+        return 90.0f;
+    else if ((min == diff_from_135) || (min == diff_from_315))
+        return 135.0f;
+}
+
+unsigned char *imgBinary(unsigned char *srcData, int width, int height, unsigned char thresholdValue)
+{
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * width * height);
+    unsigned char *dstStart = dstData;
+    // loop rows
+    unsigned char *end = srcData + (width * height);
+    for (unsigned char *i = srcData, *j = dstData; i < end; i += 4, j += 4)
+    {
+        unsigned char pVal = *i;
+        unsigned char pVal1 = *(i + 1);
+        unsigned char pVal2 = *(i + 2);
+        unsigned char pVal3 = *(i + 3);
+        *j = (pVal < thresholdValue) ? 0 : 255;
+        *(j + 1) = (pVal1 < thresholdValue) ? 0 : 255;
+        *(j + 2) = (pVal2 < thresholdValue) ? 0 : 255;
+        *(j + 3) = (pVal3 < thresholdValue) ? 0 : 255;
+    }
+    return dstStart;
+}
+
+unsigned char *hysteresis(unsigned char *srcData, int width, int height, unsigned char thresholdValue)
+{
+    unsigned char *dstData = (unsigned char *)malloc(sizeof(unsigned char) * width * height);
+    memset(dstData, 0, width * height);
+
+    unsigned char *srcEnd = srcData + (width * (height - 1)) - 1;
+    int counter = 0;
+    int newWidth = width - 2;
+
+    for (unsigned char *src = (srcData + width + 1), *dst = (dstData + width + 1); src < srcEnd; ++src, ++dst)
+    {
+        unsigned char p11 = *(src - width - 1);
+        unsigned char p12 = *(src - width);
+        unsigned char p13 = *(src - width + 1);
+        unsigned char p21 = *(src - 1);
+        unsigned char p22 = *(src);
+        unsigned char p23 = *(src + 1);
+        unsigned char p31 = *(src + width - 1);
+        unsigned char p32 = *(src + width);
+        unsigned char p33 = *(src + width + 1);
+
+        if ((p11 >= thresholdValue) ||
+            (p12 >= thresholdValue) ||
+            (p13 >= thresholdValue) ||
+            (p21 >= thresholdValue) ||
+            (p22 >= thresholdValue) ||
+            (p23 >= thresholdValue) ||
+            (p31 >= thresholdValue) ||
+            (p32 >= thresholdValue) ||
+            (p33 >= thresholdValue))
+        {
+            *dst = 255;
+        }
+
+        ++counter;
+        if ((counter % newWidth) == 0)
+        {
+            ++src;
+            ++dst;
+        }
+    }
+    return dstData;
 }

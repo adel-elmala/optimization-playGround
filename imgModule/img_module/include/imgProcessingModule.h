@@ -28,7 +28,7 @@ unsigned char *negativeSSE2(unsigned char *srcData, int width, int height, int c
 unsigned char *blur(unsigned char *srcData, int width, int height);
 unsigned char *guassianBlur(unsigned char *srcData, int width, int height);
 
-unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, int srcWidth, int srcHeight, int templWidth, int templHeight);
+// unsigned char *templateMatch(unsigned char *srcData, unsigned char *template, int srcWidth, int srcHeight, int templWidth, int templHeight);
 unsigned char *sobelX(unsigned char *srcData, int width, int height);
 unsigned char *sobelY(unsigned char *srcData, int width, int height);
 
@@ -37,7 +37,19 @@ void correlateSigned(unsigned char *srcData, unsigned char *dstData, double *mas
 
 unsigned char *EdgeDetection(unsigned char *srcData, int width, int height);
 unsigned char *imgMultiply(unsigned char *img1, unsigned char *img2, int width, int height);
+unsigned char *imgMultiplySSE(unsigned char *img1, unsigned char *img2, int width, int height);
 unsigned char *imgAdd(unsigned char *img1, unsigned char *img2, int width, int height);
 unsigned char *imgSqrt(unsigned char *srcData, int width, int height);
+unsigned char *imgAtan2(unsigned char *srcData1, unsigned char *srcData2, int width, int height);
+
+unsigned char *imgBinary(unsigned char *srcData, int width, int height, unsigned char thresholdValue);
+
+unsigned char *canny(unsigned char *srcData, int width, int height);
+
+unsigned char *non_maximum_Suppression(unsigned char *grad_mag, unsigned char *grad_dir, int width, int height);
+float getQuadrant(float x);
+unsigned char *hysteresis(unsigned char *srcData, int width, int height, unsigned char thresholdValue);
+
+
 
 #endif

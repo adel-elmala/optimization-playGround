@@ -5,9 +5,16 @@
             "cwd": "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module",
             "binaryPath": "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/imgModule",
             "binaryArgs": []
+        },
+        {
+            "cwd": "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module",
+            "binaryPath": "/media/adel/1E9A1F939A1F6695/cs-path/gameDev/gpgpu/gpgpu-playGround/imgModule/img_module/testBed",
+            "binaryArgs": []
         }
     ],
     "files.associations": {
-        "assert.h": "c"
+        "assert.h": "c",
+        "string.h": "c",
+        "math.h": "c"
     }
 }

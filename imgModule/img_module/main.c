@@ -18,13 +18,13 @@ int main(int argc, char **argv)
 {
 
     // const char * filename = "imgs/lena.jpg";
-    const char *filename = "imgs/img1.jpg";
-    const char *filename2 = "imgs/img3.jpg";
-    // char const * filename3 = "imgs/bigCat.jpg";
-    char const *filename3 = "imgs/snp4.png";
-    char const *filename4 = "imgs/mri.png";
-    char const *filename5 = "imgs/chess.png";
-    // char const * filename = "imgs/hires.jpg";
+    const char *filename = "imgs/original/img1.jpg";
+    const char *filename2 = "imgs/original/img3.jpg";
+    // char const * filename3 = "imgs/original/bigCat.jpg";
+    char const *filename3 = "imgs/original/snp4.png";
+    char const *filename4 = "imgs/original/mri.png";
+    char const *filename5 = "imgs/original/chess.png";
+    // char const * filename = "imgs/original/hires.jpg";
 
     // -----------------------------
     // -----------------------------

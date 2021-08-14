@@ -16,13 +16,14 @@
 int main(int argc, char **argv)
 {
 
-    // const char *filename = "imgs/original/chess.png";
+    // const char *filename = "imgs/original/chess.png"; 
     // const char *filename = "imgs/original/img1.jpg";
     const char *filename = "imgs/original/lena.jpg";
 
     char const *saveTo = "imgs/results/data.png";
     char const *saveTo1 = "imgs/results/EdgeDetect.png";
-    char const *saveTo2 = "imgs/results/sobely.png";
+    // char const *saveTo2 = "imgs/results/sobely.png";
+    char const *saveTo3 = "imgs/results/canny.png";
 
     int width, height, channels;
 
@@ -32,31 +33,30 @@ int main(int argc, char **argv)
 
     // -----------------------------------------------------------
 
-    logStartLine("testing 'EdgeDetection()");
+    logStartLine("testing 'EdgeDetection");
     startTimer();
-
     unsigned char *EdgeDetect = EdgeDetection(data, width, height);
     int uSec = endTimer();
     logInfo("'EdgeDetection()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
 
 
-    // startTimer();
-    // unsigned char * sobelx = sobelX(data, width, height);
-    // int uSec = endTimer();
-    // logInfo("'sobelX()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
-    
-    // startTimer();
-    // unsigned char * sobely = sobelY(data, width, height);
-    // uSec = endTimer();
-    // logInfo("'sobelY()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
+    startTimer();
+    unsigned char *cannyEdge = canny(data, width, height);
+    uSec = endTimer();
+    logInfo("'canny()' took, %0.3f mSec\n", (float)uSec / 1000.0f);
+
 
     stbi_write_png(saveTo, width, height, 1, (const void *)data, (width)*1);
-    stbi_write_png(saveTo1, width - 2, height - 2, 1, (const void *)EdgeDetect, (width - 2) * 1);
+    // stbi_write_png(saveTo1, width - 2, height - 2, 1, (const void *)EdgeDetect, (width - 2) * 1);
+    stbi_write_png(saveTo1, width - 6, height - 6, 1, (const void *)EdgeDetect, (width - 6) * 1);
+    // stbi_write_png(saveTo3, width - 6, height - 6, 1, (const void *)cannyEdge, (width - 6) * 1);
+    stbi_write_png(saveTo3, width - 4, height - 4, 1, (const void *)cannyEdge, (width - 4) * 1);
     // stbi_write_png(saveTo2, width - 2, height - 2, 1, (const void *)sobely, (width - 2) * 1);
 
     // -----------------------------------------------------------
     stbi_image_free(data);
     free(EdgeDetect);
+    free(cannyEdge);
     // free(sobely);
 
     return 0;
