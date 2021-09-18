@@ -1,2 +1,3 @@
-# gpgpu-playGround
-learning gpgpu through cuda and opencl, and practicing c in general
+# optimization-playGround
+Learning code optimization based on hardware resources,
+Making a simple image processing library to test different approaches
